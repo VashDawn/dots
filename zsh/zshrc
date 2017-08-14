@@ -1,0 +1,8 @@
+
+
+# Enable vi-mode -------------
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+
+# Alias ----------------
+alias tmux='tmux -2'
