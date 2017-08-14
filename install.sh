@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set /etc/vimrc ------------------------------------
-echo '
+vim_config='
 " Based configuration ---------------------------
 syntax on
 set number
@@ -26,24 +26,32 @@ nno tt :tabnew<cr>
 
 ino jj <Esc>
 " -------------------------
-' >> /etc/vimrc
+'
+if [ -f /etc/vimrc ]
+then
+    sudo echo $vim_config >> /etc/vimrc
+fi
 # ------------------------------------
 
 
 # Set /etc/zsh/zshrc ------------------------------
-echo '
+zsh_conf='
 # Enable vi-mode -------------
 bindkey -v
 bindkey -M viins 'jj' vi-cmd-mode
 
 # Alias ----------------
 alias tmux='tmux -2'
-' >> /etc/zsh/zshrc
+'
+if [ -f /etc/zsh/zshrc ]
+then
+    sudo echo $zsh_conf >> /etc/zsh/zshrc
+fi
 # --------------------------------
 
 
 # Set /etc/bash.bashrc --------------------------
-echo "
+bash_conf="
 # Alias ---------------------
 alias ls='ls --color'
 alias la='ls -al'
@@ -51,7 +59,11 @@ alias la='ls -al'
 # Enable vi-mode -----------------------------
 set -o vi
 bind -m vi-insert '\"jj\": vi-movement-mode'
-" >> /etc/bash.bashrc
+" 
+if [ -f /etc/bash.bashrc ]
+then
+    sudo echo $bash_conf >> /etc/bash.bashrc
+fi
 # ------------------------------
 
 
