@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=./vim/vimrc
@@ -63,3 +63,20 @@ else
     cp -f $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 fi
 # ---------------------------------
+
+
+# Set proxy for "curl" and "wget" ----------------------------------
+echo '
+https_proxy = http://10.118.1.86:8123
+http_proxy = http://10.118.1.86:8123
+ftp_proxy = http://10.118.1.86:8123
+use_proxy = on
+continue = on
+check_certificate = off
+' >> ~/.wgetrc
+
+echo '
+-L
+proxy = 10.118.1.86:8123
+' >> ~/.curlrc
+# --------------------------------
