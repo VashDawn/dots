@@ -2,76 +2,77 @@
 # Please install grml-zsh-config before use these settings.
 
 # Prompt theme settings --------------------------------------------------
-function virtual_env_prompt () {
-    REPLY=${VIRTUAL_ENV+(${VIRTUAL_ENV:t}) }
+    # Create and add tokens ------------
+    function virtual_env_prompt () {
+        REPLY=${VIRTUAL_ENV+(${VIRTUAL_ENV:t}) }
 
-}
+    }
 
-grml_theme_add_token virtual-env -f virtual_env_prompt '%F{magenta}' '%f'
+    grml_theme_add_token virtual-env -f virtual_env_prompt '%F{magenta}' '%f'
 
-
-function prompt_grml-c_setup () {
-    grml_prompt_setup grml-c
-}
-
-
-function prompt_grml-c_precmd () {
-    emulate -L zsh
-    local grmltheme=grml-c
-    local -a left_items right_items
-    left_items=(rc virtual-env change-root user at host path vcs percent)
-    right_items=(sad-smiley)
-
-    prompt_grml_precmd_worker
-}
+    # Generate themes with new tokens ----------------------------
+    function prompt_grml-c_setup () {
+        grml_prompt_setup grml-c
+    }
 
 
-if zrcautoload promptinit && promptinit 2>/dev/null ; then
-    # Since we define the required functions in here and not in files in
-    # $fpath, we need to stick the theme's name into `$prompt_themes'
-    # ourselves, since promptinit does not pick them up otherwise.
-    prompt_themes+=( grml-c )
-    # Also, keep the array sorted...
-    prompt_themes=( "${(@on)prompt_themes}" )
-else
-    print 'Notice: no promptinit available :('
-    grml_prompt_fallback
-    function precmd () { (( ${+functions[vcs_info]} )) && vcs_info; }
-fi
+    function prompt_grml-c_precmd () {
+        emulate -L zsh
+        local grmltheme=grml-c
+        local -a left_items right_items
+        left_items=(rc virtual-env change-root user at host path vcs percent)
+        right_items=(sad-smiley)
 
+        prompt_grml_precmd_worker
+    }
 
-if is437; then
-    # The prompt themes use modern features of zsh, that require at least
-    # version 4.3.7 of the shell. Use the fallback otherwise.
-    if [[ $GRML_DISPLAY_BATTERY -gt 0 ]]; then
-        zstyle ':prompt:grml:right:setup' items sad-smiley battery
-        add-zsh-hook precmd battery
-    fi
-    if [[ "$TERM" == dumb ]] ; then
-        zstyle ":prompt:grml(|-c|-large|-chroot):*:items:grml-chroot" pre ''
-        zstyle ":prompt:grml(|-c|-large|-chroot):*:items:grml-chroot" post ' '
-        for i in rc user path jobs history date time shell-level; do
-            zstyle ":prompt:grml(|-c|-large|-chroot):*:items:$i" pre ''
-            zstyle ":prompt:grml(|-c|-large|-chroot):*:items:$i" post ''
-        done
-        unset i
-        zstyle ':prompt:grml(|-c|-large|-chroot):right:setup' use-rprompt false
-    elif (( EUID == 0 )); then
-        zstyle ':prompt:grml(|-c|-large|-chroot):*:items:user' pre '%B%F{red}'
-    fi
-
-    # Finally enable one of the prompts.
-    if [[ -n $GRML_CHROOT ]]; then
-        prompt grml-chroot
-    elif [[ $GRMLPROMPT -gt 0 ]]; then
-        prompt grml-large
+    # Add new themes to 'prompt_themes' -------------------------------------
+    if zrcautoload promptinit && promptinit 2>/dev/null ; then
+        # Since we define the required functions in here and not in files in
+        # $fpath, we need to stick the theme's name into `$prompt_themes'
+        # ourselves, since promptinit does not pick them up otherwise.
+        prompt_themes+=( grml-c )
+        # Also, keep the array sorted...
+        prompt_themes=( "${(@on)prompt_themes}" )
     else
-        prompt grml-c
+        print 'Notice: no promptinit available :('
+        grml_prompt_fallback
+        function precmd () { (( ${+functions[vcs_info]} )) && vcs_info; }
     fi
-else
-    grml_prompt_fallback
-    function precmd () { (( ${+functions[vcs_info]} )) && vcs_info; }
-fi
+
+    # Define dynamic prompt theme styles -----------------------
+    if is437; then
+        # The prompt themes use modern features of zsh, that require at least
+        # version 4.3.7 of the shell. Use the fallback otherwise.
+        if [[ $GRML_DISPLAY_BATTERY -gt 0 ]]; then
+            zstyle ':prompt:grml:right:setup' items sad-smiley battery
+            add-zsh-hook precmd battery
+        fi
+        if [[ "$TERM" == dumb ]] ; then
+            zstyle ":prompt:grml(|-c|-large|-chroot):*:items:grml-chroot" pre ''
+            zstyle ":prompt:grml(|-c|-large|-chroot):*:items:grml-chroot" post ' '
+            for i in rc user path jobs history date time shell-level; do
+                zstyle ":prompt:grml(|-c|-large|-chroot):*:items:$i" pre ''
+                zstyle ":prompt:grml(|-c|-large|-chroot):*:items:$i" post ''
+            done
+            unset i
+            zstyle ':prompt:grml(|-c|-large|-chroot):right:setup' use-rprompt false
+        elif (( EUID == 0 )); then
+            zstyle ':prompt:grml(|-c|-large|-chroot):*:items:user' pre '%B%F{red}'
+        fi
+
+        # Finally enable one of the prompts.
+        if [[ -n $GRML_CHROOT ]]; then
+            prompt grml-chroot
+        elif [[ $GRMLPROMPT -gt 0 ]]; then
+            prompt grml-large
+        else
+            prompt grml-c
+        fi
+    else
+        grml_prompt_fallback
+        function precmd () { (( ${+functions[vcs_info]} )) && vcs_info; }
+    fi
 # ---------------------------------------
 
 
