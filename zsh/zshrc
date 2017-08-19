@@ -26,7 +26,7 @@
         prompt_grml_precmd_worker
     }
 
-    # Add new themes to 'prompt_themes' -------------------------------------
+    # Stick new themes into '$prompt_themes' -------------------------------------
     if zrcautoload promptinit && promptinit 2>/dev/null ; then
         # Since we define the required functions in here and not in files in
         # $fpath, we need to stick the theme's name into `$prompt_themes'
