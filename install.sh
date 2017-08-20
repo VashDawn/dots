@@ -77,7 +77,7 @@ ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 # Proxy ------------------------------
 echo 'Please input your proxy server(x.x.x.x:port): '
 read proxy_server
-if [ -z $proxy_server ]; then
+if [ ! -z $proxy_server ]; then
     wget_proxy="
     https_proxy = http://${proxy_server}
     http_proxy = http://${proxy_server}
