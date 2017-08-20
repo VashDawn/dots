@@ -64,7 +64,7 @@ TARGET_IP_CONF=~/.ipython/profile_default/ipython_config.py
 IP_KEYBINDINGS=~/.dotfiles/ipython/keybindings.py
 TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
-if [ ! -d ~/.ipython ] && mkdir -p ~/.ipython/profile_default/startup
+[ ! -d ~/.ipython ] && mkdir -p ~/.ipython/profile_default/startup
 
 if [ -e $TARGET_IP_CONF ]; then bak_old $TARGET_IP_CONF; fi
 ln -s $IP_CONF $TARGET_IP_CONF
