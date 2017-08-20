@@ -1,75 +1,66 @@
 #!/bin/bash
 
+# Create .dotfiles dir and old.dotfiles dir ----------------------
+if [ -d ~/.dotfiles ]; then mv ~/.dotfiles ~/old.dotfiles; fi
+clone https://github.com/vashdawn/dots.git ~/.dotfiles
+
+[ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
+
+# A function to backup old dotfiles --------
+function bak_old () {
+    now=`date +%Y%m%d%H%M%S`
+    [ -e $1 ] && mv -f $1 ~/old.dotfiles/"$1""_"$now
+}
+
 # Set /etc/vimrc ------------------------------------
-VIM_CONF=./vim/vimrc
-if [ -f /etc/vimrc ]; then
-    sudo cat $VIM_CONF >> /etc/vimrc
-else
-	sudo cp -f $VIM_CONF /etc/vimrc
-fi
+VIM_CONF=~/.dotfiles/vim/vimrc
+if [ -e ~/.vimrc ]; then bak_old ~/.vimrc; fi
+ln -s $VIM_CONF ~/.vimrc
 # ------------------------------------
 
 
 # Set /etc/zsh/zshrc ------------------------------
-ZSH_CONF=./zsh/zshrc
-if [ -f ~/.zshrc ]; then
-    mv ~/.zshrc old.zshrc
-    cat $ZSH_CONF > ~/.zshrc
-else
-	cp -f $ZSH_CONF ~/.zshrc
-fi
+ZSH_CONF=~/.dotfiles/zsh/zshrc
+if [ -e ~/.zshrc ]; then bak_old ~/.zshrc; fi
+ln -s $ZSH_CONF ~/.zshrc
 # --------------------------------
 
 
 # Set /etc/bash.bashrc --------------------------
-BASH_CONF=./bash/bashrc
-if [ -f ~/.bashrc ]; then
-    cat $BASH_CONF >> ~/.bashrc
-else
-    cat $BASH_CONF > ~/.bashrc
-fi
+BASH_CONF=~/.dotfiles/bash/bashrc
+if [ -e ~/.bashrc ]; then bak_old ~/.bashrc; fi
+
+ln -s $BASH_CONF ~/.bashrc
 # ------------------------------
 
 
 # Set .tmux.conf --------------------------
-
 # Let grml-zsh-config work
 # If 'setopt no_global_rcs' in ~/.zshenv
-if [ -f ~/.zshenv ]; then
-    mv ~/.zshenv ~/old.zshenv
-fi
+if [ -e ~/.zshenv ]; then bak_old ~/.zshenv; fi
 
-TMUX_CONF=./tmux/tmux.conf
+TMUX_CONF=~/.dotfiles/tmux/tmux.conf
 TARGET_TMUX_CONF=~/.tmux.conf
-if [ -f $TARGET_TMUX_CONF ]; then
-    cat $TMUX_CONF >> $TARGET_TMUX_CONF
-else
-    cp -f $TMUX_CONF $TARGET_TMUX_CONF
-fi
+
+if [ -e $TARGET_TMUX_CONF ]; then bak_old $TARGET_TMUX_CONF; fi
+
+ln -s $TMUX_CONF $TARGET_TMUX_CONF
 # --------------------------
 
 
 # Set ipython -----------------------------------
-IP_CONF=./ipython/ipython_config.py
+IP_CONF=~/.dotfiles/ipython/ipython_config.py
 TARGET_IP_CONF=~/.ipython/profile_default/ipython_config.py
-IP_KEYBINDINGS=./ipython/keybindings.py
+IP_KEYBINDINGS=~/.dotfiles/ipython/keybindings.py
 TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
-if [ ! -d ~/.ipython ]; then
-    mkdir -p ~/.ipython/profile_default/startup
-fi
+if [ ! -d ~/.ipython ] && mkdir -p ~/.ipython/profile_default/startup
 
-if [ -f $TARGET_IP_CONF ]; then
-    cat $IP_CONF >> $TARGET_IP_CONF
-else
-    cp $IP_CONF $TARGET_IP_CONF
-fi
+if [ -e $TARGET_IP_CONF ]; then bak_old $TARGET_IP_CONF; fi
+ln -s $IP_CONF $TARGET_IP_CONF
 
-if [ -f $TARGET_IP_KEYBINDINGS ]; then
-    cat $IP_KEYBINDINGS >> $TARGET_IP_KEYBINDINGS
-else
-    cp $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
-fi
+if [ -e $TARGET_IP_KEYBINDINGS ]; then bak_old $TARGET_IP_KEYBINDINGS; fi
+ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 # ---------------------------------
 
 
