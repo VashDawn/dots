@@ -86,14 +86,21 @@ if [ -z $proxy_server ]; then
     continue = on
     check_certificate = off
     "
-
     curl_proxy="
     -L
     proxy = ${proxy_server}
     "
 
     # Set proxy for "curl" and "wget" ----------------------------------
-    echo $wget_proxy >> ~/.wgetrc
+    if [ ! -e ~/.curlrc ]; then
+        echo $curl_proxy > ~/.curlrc
+    else
+        echo $curl_proxy >> ~/.curlrc
+    fi
 
-    echo $curl_proxy >> ~/.curlrc
+    if [ ! -e ~/.wgetrc ]; then
+        echo $wget_proxy > ~/.wgetrc
+    else
+        echo $wget_proxy >> ~/.wgetrc
+    fi
 fi
