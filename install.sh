@@ -9,7 +9,8 @@ git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 # A function to backup old dotfiles --------
 function bak_old () {
     now=`date +%Y%m%d%H%M%S`
-    target_name=${$1##*/}"_"$now
+    origin_name=`echo $1`
+    target_name=${origin_name##*/}"_"$now
     [ -e $1 ] && mv -f $1 ~/old.dotfiles/$target_name
 }
 
@@ -74,7 +75,7 @@ ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 # Proxy ------------------------------
 echo 'Please input your proxy server(x.x.x.x:port): '
 read proxy_server
-if [ -z $proxy_server ]; then exit; fi
+if [ -z $proxy_server ]; then
     # Set proxy for "curl" and "wget" ----------------------------------
     echo "
     https_proxy = http://${proxy_server}
@@ -90,3 +91,4 @@ if [ -z $proxy_server ]; then exit; fi
     proxy = ${proxy_server}
     " >> ~/.curlrc
     # --------------------------------
+fi
