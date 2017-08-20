@@ -22,8 +22,10 @@ function ln_dot () {
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
-if [ -e ~/.vimrc ]; then bak_old ~/.vimrc; fi
-ln -s $VIM_CONF ~/.vimrc
+if [ -e ~/.vimrc -a ! -e ~/.spacevim ]; then
+    bak_old ~/.vimrc
+    ln -s $VIM_CONF ~/.vimrc
+fi
 # ------------------------------------
 
 
@@ -76,19 +78,22 @@ ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 echo 'Please input your proxy server(x.x.x.x:port): '
 read proxy_server
 if [ -z $proxy_server ]; then
-    # Set proxy for "curl" and "wget" ----------------------------------
-    echo "
+    wget_proxy="
     https_proxy = http://${proxy_server}
     http_proxy = http://${proxy_server}
     ftp_proxy = http://${proxy_server}
     use_proxy = on
     continue = on
     check_certificate = off
-    " >> ~/.wgetrc
+    "
 
-    echo "
+    curl_proxy="
     -L
     proxy = ${proxy_server}
-    " >> ~/.curlrc
-    # --------------------------------
+    "
+
+    # Set proxy for "curl" and "wget" ----------------------------------
+    echo $wget_proxy >> ~/.wgetrc
+
+    echo $curl_proxy >> ~/.curlrc
 fi
