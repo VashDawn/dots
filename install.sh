@@ -2,7 +2,7 @@
 
 # Create .dotfiles dir and old.dotfiles dir ----------------------
 if [ -d ~/.dotfiles ]; then mv ~/.dotfiles ~/old.dotfiles; fi
-clone https://github.com/vashdawn/dots.git ~/.dotfiles
+git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 
 [ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
 
