@@ -2,8 +2,7 @@
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=./vim/vimrc
-if [ -f /etc/vimrc ]
-then
+if [ -f /etc/vimrc ]; then
     sudo cat $VIM_CONF >> /etc/vimrc
 else
 	sudo cp -f $VIM_CONF /etc/vimrc
@@ -13,20 +12,21 @@ fi
 
 # Set /etc/zsh/zshrc ------------------------------
 ZSH_CONF=./zsh/zshrc
-if [ -f /etc/zsh/zshrc ]
-then
-    sudo cat $ZSH_CONF >> /etc/zsh/zshrc
+if [ -f ~/.zshrc ]; then
+    mv ~/.zshrc old.zshrc
+    cat $ZSH_CONF > ~/.zshrc
 else
-	sudo cp -f $ZSH_CONF /etc/zsh/zshrc
+	cp -f $ZSH_CONF ~/.zshrc
 fi
 # --------------------------------
 
 
 # Set /etc/bash.bashrc --------------------------
 BASH_CONF=./bash/bashrc
-if [ -f /etc/bash.bashrc ]
-then
-    sudo cat $BASH_CONF >> /etc/bash.bashrc
+if [ -f ~/.bashrc ]; then
+    cat $BASH_CONF >> ~/.bashrc
+else
+    cat $BASH_CONF > ~/.bashrc
 fi
 # ------------------------------
 
@@ -34,8 +34,7 @@ fi
 # Set .tmux.conf --------------------------
 TMUX_CONF=./tmux/tmux.conf
 TARGET_TMUX_CONF=~/.tmux.conf
-if [ -f $TARGET_TMUX_CONF ]
-then
+if [ -f $TARGET_TMUX_CONF ]; then
     cat $TMUX_CONF >> $TARGET_TMUX_CONF
 else
     cp -f $TMUX_CONF $TARGET_TMUX_CONF
@@ -49,18 +48,20 @@ TARGET_IP_CONF=~/.ipython/profile_default/ipython_config.py
 IP_KEYBINDINGS=./ipython/keybindings.py
 TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
-if [ -f $TARGET_IP_CONF ]
-then
-    cat $IP_CONF >> $TARGET_IP_CONF
-else
-    cp -f $IP_CONF $TARGET_IP_CONF
+if [ !-d ~/.ipython ]; then
+    mkdir -p ~/.ipython/profile_default/startup
 fi
 
-if [ -f $TARGET_IP_KEYBINDINGS ]
-then
+if [ -f $TARGET_IP_CONF ]; then
+    cat $IP_CONF >> $TARGET_IP_CONF
+else
+    cp $IP_CONF $TARGET_IP_CONF
+fi
+
+if [ -f $TARGET_IP_KEYBINDINGS ]; then
     cat $IP_KEYBINDINGS >> $TARGET_IP_KEYBINDINGS
 else
-    cp -f $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
+    cp $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 fi
 # ---------------------------------
 
