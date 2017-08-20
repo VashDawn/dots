@@ -32,6 +32,13 @@ fi
 
 
 # Set .tmux.conf --------------------------
+
+# Let grml-zsh-config work
+# If 'setopt no_global_rcs' in ~/.zshenv
+if [ -f ~/.zshenv ]; then
+    mv ~/.zshenv ~/old.zshenv
+fi
+
 TMUX_CONF=./tmux/tmux.conf
 TARGET_TMUX_CONF=~/.tmux.conf
 if [ -f $TARGET_TMUX_CONF ]; then
@@ -48,7 +55,7 @@ TARGET_IP_CONF=~/.ipython/profile_default/ipython_config.py
 IP_KEYBINDINGS=./ipython/keybindings.py
 TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
-if [ !-d ~/.ipython ]; then
+if [ ! -d ~/.ipython ]; then
     mkdir -p ~/.ipython/profile_default/startup
 fi
 
