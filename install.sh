@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create .dotfiles dir and old.dotfiles dir ----------------------
-if [ -d ~/.dotfiles ]; then mv ~/.dotfiles "~/old_dotfiles"`date +%Y%m%d%H%M%S`; fi
+if [ -d ~/.dotfiles ]; then mv ~/.dotfiles ~/"old_dotfiles_"`date +%Y%m%d%H%M%S`; fi
 git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 
 [ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
