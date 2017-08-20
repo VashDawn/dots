@@ -103,4 +103,6 @@ if [ ! -z $proxy_server ]; then
     else
         echo $wget_proxy >> ~/.wgetrc
     fi
+else
+    return 0
 fi
