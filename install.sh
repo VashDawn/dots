@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create .dotfiles dir and old.dotfiles dir ----------------------
-if [ -d ~/.dotfiles ]; then mv ~/.dotfiles ~/old_dotfiles; fi
+if [ -d ~/.dotfiles ]; then mv ~/.dotfiles "~/old_dotfiles"`date +%Y%m%d%H%M%S`; fi
 git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 
 [ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
@@ -9,13 +9,14 @@ git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 # A function to backup old dotfiles --------
 function bak_old () {
     now=`date +%Y%m%d%H%M%S`
-    [ -e $1 ] && mv -f $1 ~/old.dotfiles/"$1""_"$now
+    target_name=${$1##*/}"_"$now
+    [ -e $1 ] && mv -f $1 ~/old.dotfiles/$target_name
 }
 
 
 # A function to create dotfile symbol links
 function ln_dot () {
-    glj
+    ln -s $1 $2
 }
 
 # Set /etc/vimrc ------------------------------------
