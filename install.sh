@@ -78,30 +78,30 @@ ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 echo 'Please input your proxy server(x.x.x.x:port): '
 read proxy_server
 if [ ! -z $proxy_server ]; then
-    wget_proxy="
-    https_proxy = http://${proxy_server}
-    http_proxy = http://${proxy_server}
-    ftp_proxy = http://${proxy_server}
-    use_proxy = on
-    continue = on
-    check_certificate = off
+    wget_proxy="\n
+    https_proxy = http://${proxy_server}\n
+    http_proxy = http://${proxy_server}\n
+    ftp_proxy = http://${proxy_server}\n
+    use_proxy = on\n
+    continue = on\n
+    check_certificate = off\n
     "
-    curl_proxy="
-    -L
-    proxy = ${proxy_server}
+    curl_proxy="\n
+    -L\n
+    proxy = ${proxy_server}\n
     "
 
     # Set proxy for "curl" and "wget" ----------------------------------
     if [ ! -e ~/.curlrc ]; then
-        echo $curl_proxy > ~/.curlrc
+        echo -e $curl_proxy > ~/.curlrc
     else
-        echo $curl_proxy >> ~/.curlrc
+        echo -e $curl_proxy >> ~/.curlrc
     fi
 
     if [ ! -e ~/.wgetrc ]; then
-        echo $wget_proxy > ~/.wgetrc
+        echo -e $wget_proxy > ~/.wgetrc
     else
-        echo $wget_proxy >> ~/.wgetrc
+        echo -e $wget_proxy >> ~/.wgetrc
     fi
 else
     return 0
