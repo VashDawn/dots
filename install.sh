@@ -31,8 +31,8 @@ fi
 
 # Set /etc/zsh/zshrc ------------------------------
 ZSH_CONF=~/.dotfiles/zsh/zshrc
-if [ -e ~/.zshrc -a ! -e ~/.oh-my-zsh ]; then bak_old ~/.zshrc; fi
-ln -s $ZSH_CONF ~/.zshrc
+if [ -e ~/.zshrc ]; then bak_old ~/.zshrc; fi
+[ ! -e ~/.oh-my-zsh ] && ln -s $ZSH_CONF ~/.zshrc
 # --------------------------------
 
 
