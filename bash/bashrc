@@ -6,4 +6,4 @@ alias la='ls -al'
 
 # Enable vi-mode -----------------------------
 set -o vi
-bind -m vi-insert '\"jj\": vi-movement-mode'
+bind -m vi-insert '"jj": vi-movement-mode'
