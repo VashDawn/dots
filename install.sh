@@ -103,16 +103,4 @@ else
 fi
 
 
-# Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# Set /etc/.oh-my-zsh/
-if [ -e ~/.oh-my-zsh ]
-then
-	cp -rf ./oh-my-zsh/custom ~/.oh-my-zsh
-fi
-
-if grep -qP '^plugins=\(.+\)' ~/.zshrc
-then
-	sed -ir 's/^plugins=\(.+\)/plugins=(git colored-man-pages vi-mode autojump history history-substring-search)/g' ~/.zshrc
-fi
+./install_oh_my_zsh.sh
