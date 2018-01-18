@@ -3,8 +3,9 @@
 # Install oh-my-zsh
 if [ ! -e ~/.oh-my-zsh ]
 then
+	if [ -e ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.old; fi  # rename old .zshrc
+
 	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-	mv ~/.zshrc ~/.zshrc.old
 	cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 fi
 
