@@ -103,4 +103,4 @@ else
 fi
 
 
-./install_oh_my_zsh.sh
+./omz_ins.sh
