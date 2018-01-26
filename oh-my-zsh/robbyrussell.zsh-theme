@@ -1,5 +1,5 @@
 local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-local privilege_status="%(!:%B%F{red}l%L%f%b:%B%F{magenta}l%L%f%b)"
+local privilege_status="%(!:%B%F{red}l%L%f%b:%F{yellow}l%L%f)"
 
 # PROMPT='%{$fg[yellow]%}l%L%{$reset_color%}:${ret_status}%{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 PROMPT='${privilege_status}:${ret_status}%{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
