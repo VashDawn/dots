@@ -12,7 +12,7 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 # Set /etc/.oh-my-zsh/
 if [ -e ~/.oh-my-zsh ]
 then
-	cp -rf ./omz_custom/* ~/.oh-my-zsh/custom/
+    cp -rf `ls | grep -v ins.sh` ~/.oh-my-zsh/custom/
 fi
 
 # if grep -qP '^plugins=\(.+\)' ~/.zshrc
