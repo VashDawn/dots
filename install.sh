@@ -1,17 +1,12 @@
 #!/bin/bash
 
-# Create .dotfiles dir and old.dotfiles dir ----------------------
-if [ -d ~/.dotfiles ]; then mv ~/.dotfiles ~/"old_dotfiles_"`date +%Y%m%d%H%M%S`; fi
-git clone https://github.com/vashdawn/dots.git ~/.dotfiles
-
-[ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
-
 # A function to backup old dotfiles --------
 function bak_old () {
+    if [ -d ~/dotfiles.old ]; then mkdir ~/dotfiles.old; fi
 	now=`date +%Y%m%d%H%M%S`
 	origin_name=`echo $1`
 	target_name=${origin_name##*/}"_"$now
-	[ -e $1 ] && mv -f $1 ~/old.dotfiles/$target_name
+	[ -e $1 ] && mv -f $1 ~/dotfile.old/$target_name
 }
 
 
@@ -19,6 +14,15 @@ function bak_old () {
 function ln_dot () {
 	ln -s $1 $2
 }
+
+# Create .dotfiles dir and old.dotfiles dir ----------------------
+if [ -d ~/.dotfiles ]; then bak_old ~/.dotfiles ; fi
+
+# git clone https://github.com/vashdawn/dots.git ~/.dotfiles
+if [ ! -d ~/.dotfiles ]; then mkdir ~/.dotfiles; fi
+cp -rf ./* ~/.dotfiles/
+
+[ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
@@ -50,8 +54,6 @@ TMUX_CONF=~/.dotfiles/tmux/tmux.conf
 TARGET_TMUX_CONF=~/.tmux.conf
 
 if [ -e $TARGET_TMUX_CONF ]; then bak_old $TARGET_TMUX_CONF; fi
-
-ln -s $TMUX_CONF $TARGET_TMUX_CONF
 
 
 # Set ipython -----------------------------------
@@ -104,3 +106,4 @@ fi
 
 
 ./omz/ins.sh
+./tmux/tmux_ins.sh
