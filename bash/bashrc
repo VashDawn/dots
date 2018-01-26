@@ -7,3 +7,5 @@ alias la='ls -al'
 # Enable vi-mode -----------------------------
 set -o vi
 bind -m vi-insert '"jj": vi-movement-mode'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
