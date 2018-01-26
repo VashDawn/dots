@@ -103,4 +103,4 @@ else
 fi
 
 
-./omz_ins.sh
+./omz/ins.sh
