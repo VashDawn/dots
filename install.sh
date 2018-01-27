@@ -1,59 +1,33 @@
 #!/bin/bash
 
-# A function to backup old dotfiles --------
-function bak_old () {
-    if [ -d ~/dotfiles.old ]; then mkdir ~/dotfiles.old; fi
-	now=`date +%Y%m%d%H%M%S`
-	origin_name=`echo $1`
-	target_name=${origin_name##*/}"_"$now
-	[ -e $1 ] && mv -f $1 ~/dotfile.old/$target_name
-}
+source ./dots_func.sh
 
-
-# A function to create dotfile symbol links
-function ln_dot () {
-	ln -s $1 $2
-}
-
-# Create .dotfiles dir and old.dotfiles dir ----------------------
-if [ -d ~/.dotfiles ]; then bak_old ~/.dotfiles ; fi
+# Create .dotfiles dir and backup old dotfiles dir
+[ -d ~/.dotfiles ] && bak_old ~/.dotfiles
 
 # git clone https://github.com/vashdawn/dots.git ~/.dotfiles
-if [ ! -d ~/.dotfiles ]; then mkdir ~/.dotfiles; fi
+[ ! -d ~/.dotfiles ] && mkdir ~/.dotfiles  # temp
 cp -rf ./* ~/.dotfiles/
-
-[ ! -d ~/old.dotfiles ] && mkdir ~/old.dotfiles
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
-if [ -e ~/.vimrc -a ! -e ~/.spacevim ]; then
-	bak_old ~/.vimrc
-	ln -s $VIM_CONF ~/.vimrc
-fi
-
-
-# Set /etc/zsh/zshrc ------------------------------
-ZSH_CONF=~/.dotfiles/zsh/zshrc
-if [ -e ~/.zshrc ]; then bak_old ~/.zshrc; fi
-[ ! -e ~/.oh-my-zsh ] && ln -s $ZSH_CONF ~/.zshrc
+[ -e ~/.vimrc -a ! -e ~/.spacevim ] && bak_old ~/.vimrc
+[ ! -e ~/.vimrc ] && ln -s $VIM_CONF ~/.vimrc
 
 
 # Set /etc/bash.bashrc --------------------------
 BASH_CONF=~/.dotfiles/bash/bashrc
-if [ -e ~/.bashrc ]; then bak_old ~/.bashrc; fi
+[ -e ~/.bashrc ] && bak_old ~/.bashrc
 
 ln -s $BASH_CONF ~/.bashrc
 
 
+# Set /etc/zsh/zshrc ------------------------------
+./omz/ins.sh
+
+
 # Set .tmux.conf --------------------------
-# Let grml-zsh-config work
-# If 'setopt no_global_rcs' in ~/.zshenv
-if [ -e ~/.zshenv ]; then bak_old ~/.zshenv; fi
-
-TMUX_CONF=~/.dotfiles/tmux/tmux.conf
-TARGET_TMUX_CONF=~/.tmux.conf
-
-if [ -e $TARGET_TMUX_CONF ]; then bak_old $TARGET_TMUX_CONF; fi
+./tmux/tmux_ins.sh
 
 
 # Set ipython -----------------------------------
@@ -64,10 +38,10 @@ TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
 [ ! -d ~/.ipython ] && mkdir -p ~/.ipython/profile_default/startup
 
-if [ -e $TARGET_IP_CONF ]; then bak_old $TARGET_IP_CONF; fi
+[ -e $TARGET_IP_CONF ] && bak_old $TARGET_IP_CONF
 ln -s $IP_CONF $TARGET_IP_CONF
 
-if [ -e $TARGET_IP_KEYBINDINGS ]; then bak_old $TARGET_IP_KEYBINDINGS; fi
+[ -e $TARGET_IP_KEYBINDINGS ] && bak_old $TARGET_IP_KEYBINDINGS
 ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 
 
@@ -83,27 +57,17 @@ if [ ! -z $proxy_server ]; then
 	continue = on\n
 	check_certificate = off\n
 	"
+
 	curl_proxy="\n
 	-L\n
 	proxy = ${proxy_server}\n
 	"
 
-	# Set proxy for "curl" and "wget" ----------------------------------
-	if [ ! -e ~/.curlrc ]; then
-		echo -e $curl_proxy > ~/.curlrc
-	else
-		echo -e $curl_proxy >> ~/.curlrc
-	fi
+    echo -e $curl_proxy >> ~/.curlrc  # for curl
 
-	if [ ! -e ~/.wgetrc ]; then
-		echo -e $wget_proxy > ~/.wgetrc
-	else
-		echo -e $wget_proxy >> ~/.wgetrc
-	fi
+    echo -e $wget_proxy >> ~/.wgetrc  # for wget
 else
+    echo 'No proxy provided.'
 	return 0
 fi
 
-
-./omz/ins.sh
-./tmux/tmux_ins.sh

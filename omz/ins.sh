@@ -1,23 +1,29 @@
 #!/bin/bash
 
+source ./dots_func.sh
+
+[ -e ~/.zshrc ] && bak_old ~/.zshrc  # backup old .zshrc
+
+[ -d ~/.oh-my-zsh ] && rm -rf ~/.oh-my-zsh  # clear old .oh-my-zsh
+
 # Install oh-my-zsh
-if [ ! -e ~/.oh-my-zsh ]
-then
-	if [ -e ~/.zshrc ]; then bak_old ~/.zshrc; fi  # rename old .zshrc
-	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-fi
 
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-
-# Set /etc/.oh-my-zsh/
 shopt -s extglob
 
-if [ -e ~/.oh-my-zsh ]
+git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+if [ $? ]
 then
+    cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
     cp -rf omz/!(ins.sh) ~/.oh-my-zsh/custom/
+else
+    [ -e ~/.zshrc ] && bak_old ~/.zshrc
+    ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
 fi
 
 shopt -u extglob
+
 
 # if grep -qP '^plugins=\(.+\)' ~/.zshrc
 # then
