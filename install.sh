@@ -5,9 +5,7 @@ source ./dots_func.sh
 # Create .dotfiles dir and backup old dotfiles dir
 [ -d ~/.dotfiles ] && bak_old ~/.dotfiles
 
-# git clone https://github.com/vashdawn/dots.git ~/.dotfiles
-[ ! -d ~/.dotfiles ] && mkdir ~/.dotfiles  # temp
-cp -rf ./* ~/.dotfiles/
+git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
