@@ -66,6 +66,5 @@ if [ ! -z $proxy_server ]; then
     echo -e $wget_proxy >> ~/.wgetrc  # for wget
 else
     echo 'No proxy provided.'
-	return 0
 fi
 
