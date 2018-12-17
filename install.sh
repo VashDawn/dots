@@ -10,7 +10,8 @@ git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
 [ -e ~/.vimrc -a ! -e ~/.spacevim ] && bak_old ~/.vimrc
-[ ! -e ~/.vimrc ] && ln -s $VIM_CONF ~/.vimrc
+# [ -e ~/.vimrc  ] && [ -e ~/.spacevim ] || bak_old ~/.vimrc
+[ -e ~/.vimrc ] || ln -s $VIM_CONF ~/.vimrc
 
 
 # Set /etc/bash.bashrc --------------------------
@@ -34,7 +35,7 @@ TARGET_IP_CONF=~/.ipython/profile_default/ipython_config.py
 IP_KEYBINDINGS=~/.dotfiles/ipython/keybindings.py
 TARGET_IP_KEYBINDINGS=~/.ipython/profile_default/startup/keybindings.py
 
-[ ! -d ~/.ipython ] && mkdir -p ~/.ipython/profile_default/startup
+[ -d ~/.ipython ] || mkdir -p ~/.ipython/profile_default/startup
 
 [ -e $TARGET_IP_CONF ] && bak_old $TARGET_IP_CONF
 ln -s $IP_CONF $TARGET_IP_CONF
@@ -46,7 +47,7 @@ ln -s $IP_KEYBINDINGS $TARGET_IP_KEYBINDINGS
 # Proxy ------------------------------
 echo 'Please input your proxy server(x.x.x.x:port): '
 read proxy_server
-if [ ! -z $proxy_server ]; then
+if [ -n $proxy_server ]; then
 	wget_proxy="\n
 	https_proxy = http://${proxy_server}\n
 	http_proxy = http://${proxy_server}\n
