@@ -9,9 +9,10 @@ git clone https://github.com/vashdawn/dots.git ~/.dotfiles
 
 # Set /etc/vimrc ------------------------------------
 VIM_CONF=~/.dotfiles/vim/vimrc
-[ -e ~/.vimrc -a ! -e ~/.spacevim ] && bak_old ~/.vimrc
+SPACEVIM=~/.dotfiles/vim/.spacevim
+[ -e ~/.vimrc -a ! -e ~/.spacevim ] && bak_old ~/.vimrc && ln -s $VIM_CONF ~/.vimrc
+[ -e ~/.spacevim ] && bak_old ~/.spacevim && ln -s $SPACEVIM ~/.spacevim
 # [ -e ~/.vimrc  ] && [ -e ~/.spacevim ] || bak_old ~/.vimrc
-[ -e ~/.vimrc ] || ln -s $VIM_CONF ~/.vimrc
 
 
 # Set /etc/bash.bashrc --------------------------
