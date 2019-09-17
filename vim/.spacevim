@@ -15,7 +15,7 @@ let g:spacevim_layers = [
       \ 'fzf', 'better-defaults', 'which-key',
       \ 'ycmd', 'tmux', 'file-manager',
       \ 'syntax-checking',
-      \ 'python', 'html', 'c-c++', 'markdown',
+      \ 'python', 'html', 'c-c++', 'markdown', 'go',
       \ 'editing', 'programming',
       \ 'airline',
       \ 'git',
@@ -58,6 +58,8 @@ function! UserConfig()
     let g:airline_powerline_fonts = 1
 
     color gruvbox
+
+  set scrolljump=1   " Line to scroll when cursor leaves screen
 
     nunmap <leader>w?
 
