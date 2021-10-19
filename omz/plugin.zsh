@@ -1,1 +1,1 @@
-plugins=(git colored-man-pages vi-mode autojump history history-substring-search)
+plugins=(git colored-man-pages vi-mode zsh-autosuggestions autojump history history-substring-search z zsh-autosuggestions)
